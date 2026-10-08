@@ -17,9 +17,10 @@ const suitSymbols = {
 
 export function Card({ card }: CardProps) {
   const SuitSymbol = suitSymbols[card.suit]
+  const textColor = `text-${card.color}-400`
   return (
     <div>
-      <span className={`text-${card.color}-500`}>
+      <span className={textColor}>
         {card.number}
         <SuitSymbol className="w-6" />
       </span>
