@@ -4,20 +4,31 @@ import * as Types from "./types/types"
 import { getSuitColor } from "./utils/utils"
 
 function App() {
-  const card1: Types.Card = {
-    number: 4,
-    suit: Types.Suit.DIAMONDS,
-    color: getSuitColor(Types.Suit.DIAMONDS)
-  }
-  const card2: Types.Card = {
-    number: 7,
-    suit: Types.Suit.CLUBS,
-    color: getSuitColor(Types.Suit.CLUBS)
-  }
+  const cards = [
+    {
+      number: 4,
+      suit: Types.Suit.DIAMONDS,
+      color: getSuitColor(Types.Suit.DIAMONDS)
+    },
+    {
+      number: 7,
+      suit: Types.Suit.CLUBS,
+      color: getSuitColor(Types.Suit.CLUBS)
+    },
+    {
+      number: 2,
+      suit: Types.Suit.DIAMONDS,
+      color: getSuitColor(Types.Suit.DIAMONDS)
+    },
+    {
+      number: 10,
+      suit: Types.Suit.SPADES,
+      color: getSuitColor(Types.Suit.SPADES)
+    }
+  ]
   return (
     <>
-      <Card card={card1} />
-      <Card card={card2} />
+      {cards.map(card => <Card card={card} />)}
     </>
   )
 }
