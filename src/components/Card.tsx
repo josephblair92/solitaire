@@ -7,7 +7,7 @@ export interface CardProps {
 export function Card({ card }: CardProps) {
   return (
     <div>
-      {card.number} {card.suit}
+      <span className={`text-${card.color}-500`}>{card.number} {card.suit}</span>
     </div>
   )
 }
