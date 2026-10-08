@@ -15,6 +15,9 @@ export default defineConfig([
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
+    rules: {
+      semi: "never"
+    },
     languageOptions: {
       globals: globals.browser,
     },
