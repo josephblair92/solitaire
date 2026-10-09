@@ -27,13 +27,11 @@ const initGameState = () => {
     })))
   }
   shuffle(cards)
-  console.log(cards)
   return cards
 }
 
 function App() {
   const [gameState, setGameState] = useState(initGameState())
-  console.log(gameState)
   const cards = [
     {
       number: 4,
