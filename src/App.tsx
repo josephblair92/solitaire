@@ -2,6 +2,7 @@ import "./styles.css"
 import { Card } from "./components/Card"
 import * as Types from "./types/types"
 import { getSuitColor } from "./utils/utils"
+import { FaceDownCard } from "./components/FaceDownCard"
 
 function App() {
   const cards = [
@@ -30,6 +31,7 @@ function App() {
     <div className="bg-green-500 h-screen">
       <div className="flex flex-col gap-2">
         {cards.map(card => <Card card={card} />)}
+        <FaceDownCard />
       </div>
     </div>
   )
