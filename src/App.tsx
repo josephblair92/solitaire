@@ -40,6 +40,7 @@ function App() {
     <div className="bg-green-500 h-screen">
       <div className="flex gap-2 p-2">
         <CardStack cards={cards} />
+        <CardStack cards={[]} />
         <CardStack cards={[...cards, ...cards]} faceDownUntilIndex={3} />
       </div>
     </div>

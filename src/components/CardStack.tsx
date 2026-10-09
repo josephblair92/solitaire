@@ -1,5 +1,6 @@
 import type * as Types from "../types/types";
 import { Card } from "./Card";
+import { EmptyCardStackPlaceholder } from "./EmptyCardStackPlaceholder";
 import { FaceDownCard } from "./FaceDownCard";
 
 export interface CardStackProps {
@@ -8,7 +9,7 @@ export interface CardStackProps {
 }
 
 export function CardStack ({ cards, faceDownUntilIndex = 0 }: CardStackProps) {
-    return (
+    if (cards.length) return (
       <div className="flex flex-col gap-2">
         {cards.map((card, index) => 
             index >= faceDownUntilIndex 
@@ -17,4 +18,5 @@ export function CardStack ({ cards, faceDownUntilIndex = 0 }: CardStackProps) {
         )}
       </div>
     )
+    else return <EmptyCardStackPlaceholder />
 }
