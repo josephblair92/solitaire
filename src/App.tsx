@@ -1,9 +1,18 @@
 import "./styles.css"
 import * as Types from "./types/types"
 import { getSuitColor } from "./utils/utils"
-import { CardStack } from "./components/CardStack"
 import { useState } from "react"
-import { Card } from "./components/Card"
+
+interface TableauPile {
+  cards: Types.Card[]
+  numFaceDownCards: number
+}
+
+interface GameState {
+  tableau: TableauPile[]
+  stock: Types.Card[]
+  foundationCardsPlaced: Record<Types.Suit, number>
+}
 
 const shuffle = (arr: Array<any>) => {
   let currentIndex = arr.length
@@ -27,11 +36,28 @@ const initGameState = () => {
     })))
   }
   shuffle(cards)
-  return cards
+  const NUM_TABLEAU_PILES = 7
+  const tableau = []
+  for (let i = 0; i < NUM_TABLEAU_PILES; i++) {
+    tableau.push({
+      cards: [...cards.splice(0, i + 1)],
+      numFaceDownCards: i
+    })
+  }
+  return {
+    tableau,
+    stock: [...cards],
+    foundationCardsPlaced: {
+      clubs: 0,
+      hearts: 0,
+      spades: 0,
+      diamonds: 0
+    }
+  }
 }
 
 function App() {
-  const [gameState, setGameState] = useState(initGameState())
+  const [gameState, setGameState] = useState<GameState>(initGameState())
   const cards = [
     {
       number: 4,
@@ -70,7 +96,7 @@ function App() {
         {/* <CardStack cards={cards} />
         <CardStack cards={[]} />
         <CardStack cards={[...cards, ...cards]} faceDownUntilIndex={3} /> */}
-        {gameState.map(card => <Card card={card} positionInStack={0} />)}
+        {/* {gameState.map(card => <Card card={card} positionInStack={0} />)} */}
       </div>
     </div>
   )
