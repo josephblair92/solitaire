@@ -1,4 +1,4 @@
-import { Suit, SuitColor } from "../types/types";
+import { type Card, Suit, SuitColor } from "../types/types";
 
 const suitColors = {
     [Suit.CLUBS]: SuitColor.BLACK,
@@ -10,3 +10,5 @@ const suitColors = {
 export const getSuitColor = (suit: Suit) => {
     return suitColors[suit]
 }
+
+export const getCardKey = ({ number, suit }: Card) => `${suit}-${number}`

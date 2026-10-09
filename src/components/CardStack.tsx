@@ -1,4 +1,5 @@
 import type * as Types from "../types/types";
+import { getCardKey } from "../utils/utils";
 import { Card } from "./Card";
 import { EmptyCardStackPlaceholder } from "./EmptyCardStackPlaceholder";
 import { FaceDownCard } from "./FaceDownCard";
@@ -13,8 +14,8 @@ export function CardStack ({ cards, faceDownUntilIndex = 0 }: CardStackProps) {
       <div className="flex flex-col gap-2">
         {cards.map((card, index) => 
             index >= faceDownUntilIndex 
-                ? <Card positionInStack={index} card={card} />
-                : <FaceDownCard positionInStack={index} />
+                ? <Card key={getCardKey(card)} positionInStack={index} card={card} />
+                : <FaceDownCard key={getCardKey(card)} positionInStack={index} />
         )}
       </div>
     )
