@@ -6,6 +6,7 @@ import Diamonds from "../assets/diamonds.svg?react"
 
 export interface CardProps {
   card: Card
+  positionInStack: number
 }
 
 const suitSymbols = {
@@ -15,11 +16,12 @@ const suitSymbols = {
     [Suit.DIAMONDS]: Diamonds
 }
 
-export function Card({ card }: CardProps) {
+export function Card({ card, positionInStack }: CardProps) {
   const SuitSymbol = suitSymbols[card.suit]
+  const containerClasses = `flex flex-col h-33 w-20 p-1 bg-white rounded-md gap-4 border-1 border-gray-400 ${positionInStack > 0 ? '-mt-27' : ''}`
   const numberClasses = `text-lg text-${card.color}-500 font-bold`
   return (
-    <div className="flex flex-col h-33 w-20 p-1 bg-white rounded-md gap-4 border-1 border-gray-400">
+    <div className={containerClasses}>
         <span className={numberClasses}>{card.number}</span>
         <div className="flex justify-center"><SuitSymbol className="w-10" /></div>
     </div>
