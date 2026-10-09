@@ -39,7 +39,10 @@ export function Card({ card, positionInStack }: CardProps) {
 
   return (
     <div className={containerClasses}>
-        <span className={numberClasses}>{cardSymbol}</span>
+        <div className="flex justify-between">
+            <span className={numberClasses}>{cardSymbol}</span>
+            <SuitSymbol className="w-3" />
+        </div>
         <div className="flex justify-center"><SuitSymbol className="w-10" /></div>
     </div>
   )
