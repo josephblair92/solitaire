@@ -1,3 +1,4 @@
+import { Foundations } from "./components/Foundations"
 import { Stock } from "./components/Stock"
 import { Tableau } from "./components/Tableau"
 import "./styles.css"
@@ -45,51 +46,23 @@ const initGameState = () => {
     tableau,
     stock: [...cards],
     foundationCardsPlaced: {
-      clubs: 0,
+      clubs: 4,
       hearts: 0,
       spades: 0,
-      diamonds: 0
+      diamonds: 12
     }
   }
 }
 
 function App() {
   const [gameState, setGameState] = useState<GameState>(initGameState())
-  const cards = [
-    {
-      number: 4,
-      suit: Types.Suit.DIAMONDS,
-      color: getSuitColor(Types.Suit.DIAMONDS)
-    },
-    {
-      number: 7,
-      suit: Types.Suit.CLUBS,
-      color: getSuitColor(Types.Suit.CLUBS)
-    },
-    {
-      number: 2,
-      suit: Types.Suit.HEARTS,
-      color: getSuitColor(Types.Suit.HEARTS)
-    },
-    {
-      number: 10,
-      suit: Types.Suit.SPADES,
-      color: getSuitColor(Types.Suit.SPADES)
-    },
-    {
-      number: 1,
-      suit: Types.Suit.HEARTS,
-      color: getSuitColor(Types.Suit.HEARTS)
-    },
-    {
-      number: 12,
-      suit: Types.Suit.SPADES,
-      color: getSuitColor(Types.Suit.SPADES)
-    }
-  ]
+
   return (
     <div className="flex flex-col p-5 gap-10 bg-green-500 h-screen w-screen">
-      <Stock cards={gameState.stock}/>
+      <div className="flex justify-between">
+        <Stock cards={gameState.stock}/>
+        <Foundations foundationCardsPlaced={gameState.foundationCardsPlaced} />
+      </div>
       <Tableau piles={gameState.tableau} />
     </div>
   )
