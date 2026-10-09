@@ -24,6 +24,16 @@ function App() {
       number: 10,
       suit: Types.Suit.SPADES,
       color: getSuitColor(Types.Suit.SPADES)
+    },
+    {
+      number: 1,
+      suit: Types.Suit.HEARTS,
+      color: getSuitColor(Types.Suit.HEARTS)
+    },
+    {
+      number: 12,
+      suit: Types.Suit.SPADES,
+      color: getSuitColor(Types.Suit.SPADES)
     }
   ]
   return (

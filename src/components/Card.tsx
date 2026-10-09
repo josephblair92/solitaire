@@ -20,9 +20,26 @@ export function Card({ card, positionInStack }: CardProps) {
   const SuitSymbol = suitSymbols[card.suit]
   const containerClasses = `flex flex-col h-33 w-20 p-1 bg-white rounded-md gap-4 border-1 border-gray-400 ${positionInStack > 0 ? '-mt-27' : ''}`
   const numberClasses = `text-lg text-${card.color}-500 font-bold`
+
+  let cardSymbol = `${card.number}`
+  switch (card.number) {
+    case 1:
+        cardSymbol = 'A'
+        break
+    case 11:
+        cardSymbol = 'J'
+        break
+    case 12:
+        cardSymbol = 'Q'
+        break
+    case 13:
+        cardSymbol = 'K'
+        break
+  }
+
   return (
     <div className={containerClasses}>
-        <span className={numberClasses}>{card.number}</span>
+        <span className={numberClasses}>{cardSymbol}</span>
         <div className="flex justify-center"><SuitSymbol className="w-10" /></div>
     </div>
   )
