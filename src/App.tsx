@@ -1,8 +1,6 @@
 import "./styles.css"
-import { Card } from "./components/Card"
 import * as Types from "./types/types"
 import { getSuitColor } from "./utils/utils"
-import { FaceDownCard } from "./components/FaceDownCard"
 import { CardStack } from "./components/CardStack"
 
 function App() {

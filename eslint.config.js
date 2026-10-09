@@ -16,7 +16,7 @@ export default defineConfig([
       reactRefresh.configs.vite,
     ],
     rules: {
-      semi: "never"
+      semi: "off"
     },
     languageOptions: {
       globals: globals.browser,
