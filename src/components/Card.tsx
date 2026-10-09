@@ -17,13 +17,11 @@ const suitSymbols = {
 
 export function Card({ card }: CardProps) {
   const SuitSymbol = suitSymbols[card.suit]
-  const textColor = `text-${card.color}-400`
+  const numberClasses = `text-lg text-${card.color}-500 font-bold`
   return (
-    <div>
-      <span className={textColor}>
-        {card.number}
-        <SuitSymbol className="w-6" />
-      </span>
+    <div className="flex flex-col h-33 w-20 p-1 bg-white rounded-md gap-4">
+        <span className={numberClasses}>{card.number}</span>
+        <div className="flex justify-center"><SuitSymbol className="w-10" /></div>
     </div>
   )
 }

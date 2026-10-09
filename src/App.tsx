@@ -17,8 +17,8 @@ function App() {
     },
     {
       number: 2,
-      suit: Types.Suit.DIAMONDS,
-      color: getSuitColor(Types.Suit.DIAMONDS)
+      suit: Types.Suit.HEARTS,
+      color: getSuitColor(Types.Suit.HEARTS)
     },
     {
       number: 10,
@@ -27,9 +27,11 @@ function App() {
     }
   ]
   return (
-    <>
-      {cards.map(card => <Card card={card} />)}
-    </>
+    <div className="bg-green-500 h-screen">
+      <div className="flex flex-col gap-2">
+        {cards.map(card => <Card card={card} />)}
+      </div>
+    </div>
   )
 }
 
