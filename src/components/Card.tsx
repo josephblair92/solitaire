@@ -6,7 +6,7 @@ import Diamonds from "../assets/diamonds.svg?react"
 
 export interface CardProps {
   card: Card
-  positionInStack: number
+  positionInStack?: number
 }
 
 const suitSymbols = {
@@ -16,7 +16,7 @@ const suitSymbols = {
     [Suit.DIAMONDS]: Diamonds
 }
 
-export function Card({ card, positionInStack }: CardProps) {
+export function Card ({ card, positionInStack = 0 }: CardProps) {
   const SuitSymbol = suitSymbols[card.suit]
   const containerClasses = `flex flex-col h-33 w-20 p-1 bg-white rounded-md gap-4 border-1 border-gray-400 ${positionInStack > 0 ? '-mt-27' : ''}`
   const numberClasses = `text-lg text-${card.color}-500 font-bold`
