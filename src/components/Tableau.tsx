@@ -8,7 +8,7 @@ export interface TableauProps {
 export function Tableau ({ piles }: TableauProps) {
     return (
         <div className="flex justify-around w-full p-4">
-            {piles.map(pile => <CardStack cards={pile.cards} />)}
+            {piles.map((pile, index) => <CardStack key={`tableauPile-${index}`} cards={pile.cards} />)}
         </div>
     )
 }

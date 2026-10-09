@@ -6,11 +6,10 @@ export interface FoundationsProps {
 }
 
 export function Foundations ({ foundationCardsPlaced }: FoundationsProps) {
-    console.log(foundationCardsPlaced)
     return (
         <div className="flex gap-8">
             {(Object.entries(foundationCardsPlaced) as Array<[Suit, number]>).map(
-                ([suit, count]) => <Foundation suit={suit} numCardsPlaced={count}/>
+                ([suit, count]) => <Foundation key={`foundations-${suit}`} suit={suit} numCardsPlaced={count}/>
             )}
         </div>
     )
