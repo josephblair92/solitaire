@@ -1,15 +1,11 @@
+import { Tableau } from "./components/Tableau"
 import "./styles.css"
 import * as Types from "./types/types"
 import { getSuitColor } from "./utils/utils"
 import { useState } from "react"
 
-interface TableauPile {
-  cards: Types.Card[]
-  numFaceDownCards: number
-}
-
 interface GameState {
-  tableau: TableauPile[]
+  tableau: Types.TableauPile[]
   stock: Types.Card[]
   foundationCardsPlaced: Record<Types.Suit, number>
 }
@@ -91,13 +87,14 @@ function App() {
     }
   ]
   return (
-    <div className="bg-green-500 h-screen">
+    <div className="bg-green-500 h-screen w-screen">
       <div className="flex gap-2 p-2 flex-wrap">
         {/* <CardStack cards={cards} />
         <CardStack cards={[]} />
         <CardStack cards={[...cards, ...cards]} faceDownUntilIndex={3} /> */}
         {/* {gameState.map(card => <Card card={card} positionInStack={0} />)} */}
       </div>
+      <Tableau piles={gameState.tableau} />
     </div>
   )
 }

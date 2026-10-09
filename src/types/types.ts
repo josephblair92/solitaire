@@ -19,3 +19,8 @@ export type Card = {
     suit: Suit
     color: SuitColor
 }
+
+export interface TableauPile {
+  cards: Card[]
+  numFaceDownCards: number
+}
