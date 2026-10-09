@@ -1,3 +1,4 @@
+import { Stock } from "./components/Stock"
 import { Tableau } from "./components/Tableau"
 import "./styles.css"
 import * as Types from "./types/types"
@@ -87,13 +88,8 @@ function App() {
     }
   ]
   return (
-    <div className="bg-green-500 h-screen w-screen">
-      <div className="flex gap-2 p-2 flex-wrap">
-        {/* <CardStack cards={cards} />
-        <CardStack cards={[]} />
-        <CardStack cards={[...cards, ...cards]} faceDownUntilIndex={3} /> */}
-        {/* {gameState.map(card => <Card card={card} positionInStack={0} />)} */}
-      </div>
+    <div className="flex flex-col p-5 gap-10 bg-green-500 h-screen w-screen">
+      <Stock cards={gameState.stock}/>
       <Tableau piles={gameState.tableau} />
     </div>
   )
