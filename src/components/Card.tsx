@@ -30,10 +30,8 @@ export function Card ({ card, positionInStack = 0, location }: CardProps) {
     black: 'text-black-500'
   }
 
-  const translateValues = Array.from({ length: 13 }, (_val, index) => `-translate-y-${index * 27}`)
-
   const SuitSymbol = suitSymbols[card.suit]
-  const containerClasses = `flex flex-col h-33 w-20 p-1 bg-white rounded-md gap-4 border-1 border-gray-400 ${translateValues[positionInStack]}`
+  const containerClasses = `flex flex-col h-33 w-20 p-1 bg-white rounded-md gap-4 border-1 border-gray-400`
   const numberClasses = `text-lg ${textColors[card.color]} font-bold`
 
   let cardSymbol = `${card.number}`
@@ -53,7 +51,7 @@ export function Card ({ card, positionInStack = 0, location }: CardProps) {
   }
 
   return (
-    <div className={containerClasses} style={{ translate: `0px ${positionInStack * -110}px` }} ref={ref}>
+    <div className={containerClasses} style={{ translate: `0px ${positionInStack * -6.75}rem` }} ref={ref}>
         <div className="flex justify-between">
             <span className={numberClasses}>{cardSymbol}</span>
             <SuitSymbol className="w-3" />
