@@ -55,11 +55,21 @@ const initGameState = () => {
   }
 }
 
+const handleDragEvent = (source: string, dest: string) => {
+  console.log(`Dragged ${source} to ${dest}`)
+}
+
 function App() {
   const [gameState, setGameState] = useState<GameState>(initGameState())
 
   return (
-    <DragDropProvider>
+    <DragDropProvider onDragEnd={(event) => {
+      if (event.canceled) return
+      const source = event.operation.source?.id
+      const target = event.operation.target?.id
+      if (!source || !target) return
+      handleDragEvent(source.toString(), target.toString())
+    }}>
       <div className="flex flex-col p-5 gap-10 bg-green-500 h-screen w-screen">
         <div className="flex justify-between">
           <Stock cards={gameState.stock}/>
