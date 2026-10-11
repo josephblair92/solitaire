@@ -95,12 +95,39 @@ function App() {
     })
   }
 
+  const handleMoveCardFromTableauToFoundation = (sourceLocation: string, sourceCard: string, suit: string) => {
+    const sourceStackIndex = parseInt(sourceLocation.split('-')[1])
+    const cardIndex = parseInt(sourceLocation.split('-')[2])
+    const [sourceCardSuit, sourceCardNumber] = sourceCard.split('-')
+    setGameState(prevGameState => {
+      return {
+        ...prevGameState,
+        tableau: [...prevGameState.tableau.map((pile, index) => {
+          if (index === sourceStackIndex) {
+            return {
+              ...pile,
+              cards: [...pile.cards.slice(0, cardIndex)]
+            }
+          } else {
+            return pile
+          }
+        })],
+        foundationCardsPlaced: {
+          ...prevGameState.foundationCardsPlaced,
+          [suit]: parseInt(sourceCardNumber)
+        }
+      }
+    })
+  }
+
   const handleDragEvent = (source: string, dest: string) => {
     const [sourceLocation, sourceCard] = source.split('_')
     const [sourceLocationType] = sourceLocation.split('-')
-    const [destLocation, destStack] = dest.split('-')
-    if (sourceLocationType === 'tableau') {
-      handleMoveCardBetweenTableauPiles(sourceLocation, sourceCard, parseInt(destStack))  
+    const [destType, destLocation] = dest.split('-')
+    if (sourceLocationType === 'tableau' && destType === 'tableau') {
+      handleMoveCardBetweenTableauPiles(sourceLocation, sourceCard, parseInt(destLocation))  
+    } else if (sourceLocationType === 'tableau' && destType === 'foundation') {
+      handleMoveCardFromTableauToFoundation(sourceLocation, sourceCard, destLocation)
     }
   }
 
