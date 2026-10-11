@@ -120,6 +120,46 @@ function App() {
     })
   }
 
+  const handleMoveCardFromStockToFoundation = (sourceCard: string, suit: string) => {
+    const [sourceCardSuit, sourceCardNumber] = sourceCard.split('-')
+    setGameState(prevGameState => {
+      return {
+        ...prevGameState,
+        stock: [
+          ...prevGameState.stock.slice(1),
+          prevGameState.stock[0]
+        ],
+        foundationCardsPlaced: {
+          ...prevGameState.foundationCardsPlaced,
+          [suit]: parseInt(sourceCardNumber)
+        }
+      }
+    })
+  }
+
+  const handleMoveCardFromStockToTableau = (sourceCard: string, destStack: number) => {
+    const [sourceCardSuit, sourceCardNumber] = sourceCard.split('-')
+    setGameState(prevGameState => {
+      return {
+        ...prevGameState,
+        stock: [
+          ...prevGameState.stock.slice(1),
+          prevGameState.stock[0]
+        ],
+        tableau: [...prevGameState.tableau.map((pile, index) => {
+          if (index === destStack) {
+            return {
+              ...pile,
+              cards: [...pile.cards, prevGameState.stock[0]]
+            }
+          } else {
+            return pile
+          }
+        })]
+      }
+    })
+  }
+
   const handleDragEvent = (source: string, dest: string) => {
     const [sourceLocation, sourceCard] = source.split('_')
     const [sourceLocationType] = sourceLocation.split('-')
@@ -128,6 +168,10 @@ function App() {
       handleMoveCardBetweenTableauPiles(sourceLocation, sourceCard, parseInt(destLocation))  
     } else if (sourceLocationType === 'tableau' && destType === 'foundation') {
       handleMoveCardFromTableauToFoundation(sourceLocation, sourceCard, destLocation)
+    } else if (sourceLocationType === 'stock' && destType === 'foundation') {
+      handleMoveCardFromStockToFoundation(sourceCard, destLocation)
+    } else if (sourceLocationType === 'stock' && destType === 'tableau') {
+      handleMoveCardFromStockToTableau(sourceCard, parseInt(destLocation))
     }
   }
 
