@@ -58,6 +58,18 @@ const initGameState = () => {
 function App() {
   const [gameState, setGameState] = useState<GameState>(initGameState())
 
+  const advanceStock = () => {
+    setGameState(prevGameState => {
+      return {
+        ...prevGameState,
+        stock: [
+          ...prevGameState.stock.slice(1),
+          prevGameState.stock[0]
+        ]
+      }
+    })
+  }
+
   const handleMoveCardBetweenTableauPiles = (sourceLocation: string, sourceCard: string, destStack: number) => {
     const sourceStackIndex = parseInt(sourceLocation.split('-')[1])
     const cardIndex = parseInt(sourceLocation.split('-')[2])
@@ -76,10 +88,7 @@ function App() {
               cards: [...pile.cards, ...prevGameState.tableau[sourceStackIndex].cards.slice(cardIndex)]
             }
           } else {
-            return {
-              ...pile,
-              cards: [...pile.cards]
-            }
+            return pile
           }
         })]
       }
@@ -105,7 +114,7 @@ function App() {
     }}>
       <div className="flex flex-col p-5 gap-10 bg-green-500 h-screen w-screen">
         <div className="flex justify-between">
-          <Stock cards={gameState.stock}/>
+          <Stock cards={gameState.stock} advanceStock={advanceStock} />
           <Foundations foundationCardsPlaced={gameState.foundationCardsPlaced} />
         </div>
         <Tableau piles={gameState.tableau} />
