@@ -7,14 +7,15 @@ import { FaceDownCard } from "./FaceDownCard";
 export interface CardStackProps {
     cards: Types.Card[]
     faceDownUntilIndex?: number
+    stackIndex: number
 }
 
-export function CardStack ({ cards, faceDownUntilIndex = 0 }: CardStackProps) {
+export function CardStack ({ cards, faceDownUntilIndex = 0, stackIndex }: CardStackProps) {
     if (cards.length) return (
       <div className="flex flex-col gap-2">
         {cards.map((card, index) => 
             index >= faceDownUntilIndex 
-                ? <Card key={getCardKey(card)} positionInStack={index} card={card} />
+                ? <Card location={`tableau-${stackIndex}`} key={getCardKey(card)} positionInStack={index} card={card} />
                 : <FaceDownCard key={getCardKey(card)} positionInStack={index} />
         )}
       </div>

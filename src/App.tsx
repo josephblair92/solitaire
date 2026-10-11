@@ -5,6 +5,7 @@ import "./styles.css"
 import * as Types from "./types/types"
 import { getSuitColor } from "./utils/utils"
 import { useState } from "react"
+import { DragDropProvider } from "@dnd-kit/react"
 
 interface GameState {
   tableau: Types.TableauPile[]
@@ -58,13 +59,15 @@ function App() {
   const [gameState, setGameState] = useState<GameState>(initGameState())
 
   return (
-    <div className="flex flex-col p-5 gap-10 bg-green-500 h-screen w-screen">
-      <div className="flex justify-between">
-        <Stock cards={gameState.stock}/>
-        <Foundations foundationCardsPlaced={gameState.foundationCardsPlaced} />
+    <DragDropProvider>
+      <div className="flex flex-col p-5 gap-10 bg-green-500 h-screen w-screen">
+        <div className="flex justify-between">
+          <Stock cards={gameState.stock}/>
+          <Foundations foundationCardsPlaced={gameState.foundationCardsPlaced} />
+        </div>
+        <Tableau piles={gameState.tableau} />
       </div>
-      <Tableau piles={gameState.tableau} />
-    </div>
+    </DragDropProvider>
   )
 }
 

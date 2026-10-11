@@ -10,6 +10,6 @@ export interface FoundationProps {
 
 export function Foundation ({ suit, numCardsPlaced }: FoundationProps) {
     return numCardsPlaced > 0
-        ? <Card card={{ suit, number: numCardsPlaced, color: getSuitColor(suit) }} />
+        ? <Card location={`foundation-${suit}`} card={{ suit, number: numCardsPlaced, color: getSuitColor(suit) }} />
         : <EmptyCardStackPlaceholder />
 }

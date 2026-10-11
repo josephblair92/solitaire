@@ -10,7 +10,7 @@ export function Stock ({ cards }: StockProps) {
     return (
         <div className="flex gap-3">
             <FaceDownCard />
-            <Card card={cards[0]} />
+            <Card location="stock" card={cards[0]} />
         </div>
     )
 }
