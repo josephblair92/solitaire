@@ -47,10 +47,10 @@ const initGameState = () => {
     tableau,
     stock: [...cards],
     foundationCardsPlaced: {
-      clubs: 4,
+      clubs: 0,
       hearts: 0,
       spades: 0,
-      diamonds: 12
+      diamonds: 0
     }
   }
 }
