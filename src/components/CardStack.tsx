@@ -18,7 +18,7 @@ export function CardStack ({ cards, faceDownUntilIndex = 0, stackIndex }: CardSt
       <div className="flex flex-col gap-2" ref={ref}>
         {cards.map((card, index) => 
             index >= faceDownUntilIndex 
-                ? <Card location={stackKey} key={getCardKey(card)} positionInStack={index} card={card} />
+                ? <Card location={`${stackKey}-${index}`} key={getCardKey(card)} positionInStack={index} card={card} />
                 : <FaceDownCard key={getCardKey(card)} positionInStack={index} />
         )}
       </div>

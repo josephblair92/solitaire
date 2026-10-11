@@ -55,15 +55,48 @@ const initGameState = () => {
   }
 }
 
-const handleDragEvent = (source: string, dest: string) => {
-  console.log(`Dragged ${source} to ${dest}`)
-}
-
 function App() {
   const [gameState, setGameState] = useState<GameState>(initGameState())
 
+  const handleMoveCardBetweenTableauPiles = (sourceLocation: string, sourceCard: string, destStack: number) => {
+    const sourceStackIndex = parseInt(sourceLocation.split('-')[1])
+    const cardIndex = parseInt(sourceLocation.split('-')[2])
+    setGameState(prevGameState => {
+      return {
+        ...prevGameState,
+        tableau: [...prevGameState.tableau.map((pile, index) => {
+          if (index === sourceStackIndex) {
+            return {
+              ...pile,
+              cards: [...pile.cards.slice(0, cardIndex)]
+            }
+          } else if (index === destStack) {
+            return {
+              ...pile,
+              cards: [...pile.cards, ...prevGameState.tableau[sourceStackIndex].cards.slice(cardIndex)]
+            }
+          } else {
+            return {
+              ...pile,
+              cards: [...pile.cards]
+            }
+          }
+        })]
+      }
+    })
+  }
+
+  const handleDragEvent = (source: string, dest: string) => {
+    const [sourceLocation, sourceCard] = source.split('_')
+    const [sourceLocationType] = sourceLocation.split('-')
+    const [destLocation, destStack] = dest.split('-')
+    if (sourceLocationType === 'tableau') {
+      handleMoveCardBetweenTableauPiles(sourceLocation, sourceCard, parseInt(destStack))  
+    }
+  }
+
   return (
-    <DragDropProvider onDragEnd={(event) => {
+    <DragDropProvider onDragEnd={event => {
       if (event.canceled) return
       const source = event.operation.source?.id
       const target = event.operation.target?.id
