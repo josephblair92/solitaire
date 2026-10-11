@@ -1,6 +1,6 @@
 export type FaceDownCardProps = {
     positionInStack?: number
-    onClick: () => void
+    onClick?: () => void
 }
 
 export function FaceDownCard ({ positionInStack = 0, onClick }: FaceDownCardProps) {

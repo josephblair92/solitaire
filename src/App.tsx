@@ -160,6 +160,34 @@ function App() {
     })
   }
 
+  const handleMoveCardFromFoundationToTableau = (sourceLocation: string, destStack: number) => {
+    const suit = sourceLocation.split('-')[1] as Types.Suit
+    setGameState(prevGameState => {
+      const card = {
+        suit,
+        color: getSuitColor(suit),
+        number: prevGameState.foundationCardsPlaced[suit]
+      }
+      return {
+        ...prevGameState,
+        foundationCardsPlaced: {
+          ...prevGameState.foundationCardsPlaced,
+          [suit]: prevGameState.foundationCardsPlaced[suit] - 1
+        },
+        tableau: [...prevGameState.tableau.map((pile, index) => {
+          if (index === destStack) {
+            return {
+              ...pile,
+              cards: [...pile.cards, card]
+            }
+          } else {
+            return pile
+          }
+        })]
+      }
+    })
+  }
+
   const handleDragEvent = (source: string, dest: string) => {
     const [sourceLocation, sourceCard] = source.split('_')
     const [sourceLocationType] = sourceLocation.split('-')
@@ -172,6 +200,8 @@ function App() {
       handleMoveCardFromStockToFoundation(sourceCard, destLocation)
     } else if (sourceLocationType === 'stock' && destType === 'tableau') {
       handleMoveCardFromStockToTableau(sourceCard, parseInt(destLocation))
+    } else if (sourceLocationType === 'foundation' && destType === 'tableau') {
+      handleMoveCardFromFoundationToTableau(sourceLocation, parseInt(destLocation))
     }
   }
 
