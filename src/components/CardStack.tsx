@@ -23,5 +23,7 @@ export function CardStack ({ cards, faceDownUntilIndex = 0, stackIndex }: CardSt
         )}
       </div>
     )
-    else return <EmptyCardStackPlaceholder />
+    else return <div ref={ref}>
+        <EmptyCardStackPlaceholder />
+    </div>
 }
