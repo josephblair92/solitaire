@@ -140,18 +140,20 @@ function App() {
     })
   }
 
-  const handleMoveCardFromStockToFoundation = (sourceCard: string, suit: string) => {
-    const [sourceCardSuit, sourceCardNumber] = sourceCard.split('-')
+  const handleMoveCardFromStockToFoundation = (suit: string) => {
+    const cardToPlace = gameState.stock[0]
+    if (!isValidFoundationCardPlacement(cardToPlace, suit as Types.Suit)) return
     setGameState(prevGameState => {
+      const card = prevGameState.stock[0]
       return {
         ...prevGameState,
         stock: [
           ...prevGameState.stock.slice(1),
-          prevGameState.stock[0]
+          card
         ],
         foundationCardsPlaced: {
           ...prevGameState.foundationCardsPlaced,
-          [suit]: parseInt(sourceCardNumber)
+          [card.suit]: card.number
         }
       }
     })
@@ -225,7 +227,7 @@ function App() {
     } else if (sourceLocationType === 'tableau' && destType === 'foundation') {
       handleMoveCardFromTableauToFoundation(sourceLocation, sourceCard, destLocation)
     } else if (sourceLocationType === 'stock' && destType === 'foundation') {
-      handleMoveCardFromStockToFoundation(sourceCard, destLocation)
+      handleMoveCardFromStockToFoundation(destLocation)
     } else if (sourceLocationType === 'stock' && destType === 'tableau') {
       handleMoveCardFromStockToTableau(parseInt(destLocation))
     } else if (sourceLocationType === 'foundation' && destType === 'tableau') {
