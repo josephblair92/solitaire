@@ -153,7 +153,7 @@ function App() {
     const targetCard = gameState.tableau[destStack].cards.at(-1)
 
     if (!isValidTableauCardPlacement(cardToPlace, targetCard)) return
-    
+
     setGameState(prevGameState => {
       return {
         ...prevGameState,
@@ -177,12 +177,16 @@ function App() {
 
   const handleMoveCardFromFoundationToTableau = (sourceLocation: string, destStack: number) => {
     const suit = sourceLocation.split('-')[1] as Types.Suit
+    const cardToPlace = {
+      suit,
+      color: getSuitColor(suit),
+      number: gameState.foundationCardsPlaced[suit]
+    }
+    const targetCard = gameState.tableau[destStack].cards.at(-1)
+
+    if (!isValidTableauCardPlacement(cardToPlace, targetCard)) return
+
     setGameState(prevGameState => {
-      const card = {
-        suit,
-        color: getSuitColor(suit),
-        number: prevGameState.foundationCardsPlaced[suit]
-      }
       return {
         ...prevGameState,
         foundationCardsPlaced: {
@@ -193,7 +197,7 @@ function App() {
           if (index === destStack) {
             return {
               ...pile,
-              cards: [...pile.cards, card]
+              cards: [...pile.cards, cardToPlace]
             }
           } else {
             return pile
