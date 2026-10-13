@@ -148,8 +148,12 @@ function App() {
     })
   }
 
-  const handleMoveCardFromStockToTableau = (sourceCard: string, destStack: number) => {
-    const [sourceCardSuit, sourceCardNumber] = sourceCard.split('-')
+  const handleMoveCardFromStockToTableau = (destStack: number) => {
+    const cardToPlace = gameState.stock[0]
+    const targetCard = gameState.tableau[destStack].cards.at(-1)
+
+    if (!isValidTableauCardPlacement(cardToPlace, targetCard)) return
+    
     setGameState(prevGameState => {
       return {
         ...prevGameState,
@@ -210,7 +214,7 @@ function App() {
     } else if (sourceLocationType === 'stock' && destType === 'foundation') {
       handleMoveCardFromStockToFoundation(sourceCard, destLocation)
     } else if (sourceLocationType === 'stock' && destType === 'tableau') {
-      handleMoveCardFromStockToTableau(sourceCard, parseInt(destLocation))
+      handleMoveCardFromStockToTableau(parseInt(destLocation))
     } else if (sourceLocationType === 'foundation' && destType === 'tableau') {
       handleMoveCardFromFoundationToTableau(sourceLocation, parseInt(destLocation))
     }
