@@ -64,6 +64,10 @@ function App() {
       : cardToPlace.number === targetCard.number - 1 && cardToPlace.color !== targetCard.color
   }
 
+  const isValidFoundationCardPlacement = (cardToPlace: Types.Card, target: Types.Suit) => {
+    return cardToPlace.suit === target && gameState.foundationCardsPlaced[target] === cardToPlace.number - 1
+  }
+
   const advanceStock = () => {
     setGameState(prevGameState => {
       return {
@@ -109,7 +113,12 @@ function App() {
   const handleMoveCardFromTableauToFoundation = (sourceLocation: string, sourceCard: string, suit: string) => {
     const sourceStackIndex = parseInt(sourceLocation.split('-')[1])
     const cardIndex = parseInt(sourceLocation.split('-')[2])
-    const [sourceCardSuit, sourceCardNumber] = sourceCard.split('-')
+    if (cardIndex !== gameState.tableau[sourceStackIndex].cards.length - 1) return
+    const [, sourceCardNumber] = sourceCard.split('-')
+    const cardToPlace = gameState.tableau[sourceStackIndex].cards[cardIndex]
+
+    if (!isValidFoundationCardPlacement(cardToPlace, suit as Types.Suit)) return
+
     setGameState(prevGameState => {
       return {
         ...prevGameState,
