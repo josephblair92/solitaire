@@ -170,8 +170,7 @@ function App() {
       return {
         ...prevGameState,
         stock: [
-          ...prevGameState.stock.slice(1),
-          prevGameState.stock[0]
+          ...prevGameState.stock.slice(1)
         ],
         tableau: [...prevGameState.tableau.map((pile, index) => {
           if (index === destStack) {
