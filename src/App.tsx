@@ -95,6 +95,7 @@ function App() {
           if (index === sourceStackIndex) {
             return {
               ...pile,
+              numFaceDownCards: cardIndex === pile.numFaceDownCards ? pile.numFaceDownCards - 1 : pile.numFaceDownCards,
               cards: [...pile.cards.slice(0, cardIndex)]
             }
           } else if (index === destStack) {
@@ -126,6 +127,7 @@ function App() {
           if (index === sourceStackIndex) {
             return {
               ...pile,
+              numFaceDownCards: cardIndex === pile.numFaceDownCards ? pile.numFaceDownCards - 1 : pile.numFaceDownCards,
               cards: [...pile.cards.slice(0, cardIndex)]
             }
           } else {
