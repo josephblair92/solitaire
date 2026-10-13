@@ -150,8 +150,7 @@ function App() {
       return {
         ...prevGameState,
         stock: [
-          ...prevGameState.stock.slice(1),
-          card
+          ...prevGameState.stock.slice(1)
         ],
         foundationCardsPlaced: {
           ...prevGameState.foundationCardsPlaced,
