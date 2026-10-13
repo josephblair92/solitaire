@@ -111,11 +111,8 @@ function App() {
     })
   }
 
-  const handleMoveCardFromTableauToFoundation = (sourceLocation: string, sourceCard: string, suit: string) => {
-    const sourceStackIndex = parseInt(sourceLocation.split('-')[1])
-    const cardIndex = parseInt(sourceLocation.split('-')[2])
+  const handleMoveCardFromTableauToFoundation = (sourceStackIndex: number, cardIndex: number, suit: string) => {
     if (cardIndex !== gameState.tableau[sourceStackIndex].cards.length - 1) return
-    const [, sourceCardNumber] = sourceCard.split('-')
     const cardToPlace = gameState.tableau[sourceStackIndex].cards[cardIndex]
 
     if (!isValidFoundationCardPlacement(cardToPlace, suit as Types.Suit)) return
@@ -136,7 +133,7 @@ function App() {
         })],
         foundationCardsPlaced: {
           ...prevGameState.foundationCardsPlaced,
-          [suit]: parseInt(sourceCardNumber)
+          [suit]: prevGameState.tableau[sourceStackIndex].cards[cardIndex].number
         }
       }
     })
@@ -218,6 +215,10 @@ function App() {
     })
   }
 
+  const onTableauCardDoubleClick = (stackIndex: number, cardIndex: number, suit: Types.Suit) => {
+    handleMoveCardFromTableauToFoundation(stackIndex, cardIndex, suit)
+  }
+
   const handleDragEvent = (source: string, dest: string) => {
     const [sourceLocation, sourceCard] = source.split('_')
     const [sourceLocationType] = sourceLocation.split('-')
@@ -225,7 +226,9 @@ function App() {
     if (sourceLocationType === 'tableau' && destType === 'tableau') {
       handleMoveCardBetweenTableauPiles(sourceLocation, parseInt(destLocation))  
     } else if (sourceLocationType === 'tableau' && destType === 'foundation') {
-      handleMoveCardFromTableauToFoundation(sourceLocation, sourceCard, destLocation)
+      const sourceStackIndex = parseInt(sourceLocation.split('-')[1])
+      const cardIndex = parseInt(sourceLocation.split('-')[2])
+      handleMoveCardFromTableauToFoundation(sourceStackIndex, cardIndex, destLocation)
     } else if (sourceLocationType === 'stock' && destType === 'foundation') {
       handleMoveCardFromStockToFoundation(destLocation)
     } else if (sourceLocationType === 'stock' && destType === 'tableau') {
@@ -245,10 +248,10 @@ function App() {
     }}>
       <div className="flex flex-col p-5 gap-10 bg-green-500 h-screen w-screen">
         <div className="flex justify-between">
-          <Stock cards={gameState.stock} advanceStock={advanceStock} />
+          <Stock cards={gameState.stock} advanceStock={advanceStock} onDoubleClick={handleMoveCardFromStockToFoundation} />
           <Foundations foundationCardsPlaced={gameState.foundationCardsPlaced} />
         </div>
-        <Tableau piles={gameState.tableau} />
+        <Tableau piles={gameState.tableau} onDoubleClick={onTableauCardDoubleClick} />
       </div>
     </DragDropProvider>
   )

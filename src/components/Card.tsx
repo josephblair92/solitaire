@@ -10,6 +10,7 @@ export interface CardProps {
   card: Card
   positionInStack?: number
   location: string
+  onDoubleClick?: () => void
 }
 
 const suitSymbols = {
@@ -19,7 +20,7 @@ const suitSymbols = {
     [Suit.DIAMONDS]: Diamonds
 }
 
-export function Card ({ card, positionInStack = 0, location }: CardProps) {
+export function Card ({ card, positionInStack = 0, location, onDoubleClick }: CardProps) {
 
   const { ref } = useDraggable({
       id: `${location}_${getCardKey(card)}`
@@ -51,7 +52,7 @@ export function Card ({ card, positionInStack = 0, location }: CardProps) {
   }
 
   return (
-    <div className={containerClasses} style={{ translate: `0px ${positionInStack * -6.75}rem` }} ref={ref}>
+    <div className={containerClasses} style={{ translate: `0px ${positionInStack * -6.75}rem` }} ref={ref} onDoubleClick={onDoubleClick}>
         <div className="flex justify-between">
             <span className={numberClasses}>{cardSymbol}</span>
             <SuitSymbol className="w-3" />
