@@ -6,6 +6,7 @@ import * as Types from "./types/types"
 import { getSuitColor } from "./utils/utils"
 import { useState } from "react"
 import { DragDropProvider } from "@dnd-kit/react"
+import { GameWinModal } from "./components/GameWinModal"
 
 interface GameState {
   tableau: Types.TableauPile[]
@@ -57,6 +58,8 @@ const initGameState = () => {
 
 function App() {
   const [gameState, setGameState] = useState<GameState>(initGameState())
+  const [winModalDismissed, setWinModalDismissed] = useState(false)
+  const gameWon = Object.values(gameState.foundationCardsPlaced).every(val => val === 13)
 
   const isValidTableauCardPlacement = (cardToPlace: Types.Card, targetCard?: Types.Card) => {
     return !targetCard
@@ -252,6 +255,7 @@ function App() {
           <Foundations foundationCardsPlaced={gameState.foundationCardsPlaced} />
         </div>
         <Tableau piles={gameState.tableau} onDoubleClick={onTableauCardDoubleClick} />
+        <GameWinModal isOpen={gameWon && !winModalDismissed} onClose={() => setWinModalDismissed(true)} />
       </div>
     </DragDropProvider>
   )

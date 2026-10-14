@@ -7,3 +7,9 @@ body {
 #root {
     height: 100%;
 }
+
+button {
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    border: 0.1rem solid gray;
+}
