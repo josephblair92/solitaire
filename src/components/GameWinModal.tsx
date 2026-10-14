@@ -3,9 +3,10 @@ import { useEffect, useRef } from "react";
 export interface GameWinModalProps {
     isOpen: boolean
     onClose: () => void
+    onReset: () => void
 }
 
-export function GameWinModal ({ isOpen, onClose }: GameWinModalProps) {
+export function GameWinModal ({ isOpen, onClose, onReset }: GameWinModalProps) {
     const ref = useRef<HTMLDialogElement>(null)
 
     useEffect(() => {
@@ -32,7 +33,7 @@ export function GameWinModal ({ isOpen, onClose }: GameWinModalProps) {
             </div>
             <footer>
                 <div className="flex gap-2 justify-center p-2">
-                    <button className="bg-green-400">Play Again</button>
+                    <button className="bg-green-400" onClick={onReset}>Play Again</button>
                     <button className="bg-red-400" onClick={onClose}>Dismiss</button>
                 </div>
             </footer>

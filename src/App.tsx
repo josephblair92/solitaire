@@ -255,7 +255,7 @@ function App() {
           <Foundations foundationCardsPlaced={gameState.foundationCardsPlaced} />
         </div>
         <Tableau piles={gameState.tableau} onDoubleClick={onTableauCardDoubleClick} />
-        <GameWinModal isOpen={gameWon && !winModalDismissed} onClose={() => setWinModalDismissed(true)} />
+        <GameWinModal isOpen={gameWon && !winModalDismissed} onClose={() => setWinModalDismissed(true)} onReset={() => setGameState(initGameState())} />
       </div>
     </DragDropProvider>
   )
