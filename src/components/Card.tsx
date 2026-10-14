@@ -32,7 +32,7 @@ export function Card ({ card, positionInStack = 0, location, onDoubleClick }: Ca
   }
 
   const SuitSymbol = suitSymbols[card.suit]
-  const containerClasses = `flex flex-col h-33 w-20 p-1 bg-white rounded-md gap-4 border-1 border-gray-400`
+  const containerClasses = `flex flex-col h-33 w-20 p-1 bg-white rounded-md gap-4 border-1 border-gray-400 col-span-full [grid-row:calc(sibling-child())]`
   const numberClasses = `text-lg ${textColors[card.color]} font-bold`
 
   let cardSymbol = `${card.number}`
@@ -52,7 +52,7 @@ export function Card ({ card, positionInStack = 0, location, onDoubleClick }: Ca
   }
 
   return (
-    <div className={containerClasses} style={{ translate: `0px ${positionInStack * -6.75}rem` }} ref={ref} onDoubleClick={onDoubleClick}>
+    <div className={containerClasses} ref={ref} onDoubleClick={onDoubleClick}>
         <div className="flex justify-between">
             <span className={numberClasses}>{cardSymbol}</span>
             <SuitSymbol className="w-3" />

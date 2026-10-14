@@ -246,7 +246,7 @@ function App() {
       if (!source || !target) return
       handleDragEvent(source.toString(), target.toString())
     }}>
-      <div className="flex flex-col p-5 gap-10 bg-green-500 h-screen w-screen">
+      <div className="flex flex-col p-5 gap-10 bg-green-500 h-full w-full">
         <div className="flex justify-between">
           <Stock cards={gameState.stock} advanceStock={advanceStock} onDoubleClick={handleMoveCardFromStockToFoundation} />
           <Foundations foundationCardsPlaced={gameState.foundationCardsPlaced} />

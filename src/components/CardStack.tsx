@@ -16,7 +16,7 @@ export function CardStack ({ cards, faceDownUntilIndex = 0, stackIndex, onDouble
     const stackKey = `tableau-${stackIndex}`
     const { ref } = useDroppable({ id: stackKey })
     if (cards.length) return (
-      <div className="flex flex-col gap-2" ref={ref}>
+      <div className="inline-grid auto-rows-5 gap-2" ref={ref}>
         {cards.map((card, index) => 
             index >= faceDownUntilIndex 
                 ? <Card location={`${stackKey}-${index}`} key={getCardKey(card)} positionInStack={index} card={card} onDoubleClick={() => onDoubleClick(stackIndex, index, card.suit)} />
