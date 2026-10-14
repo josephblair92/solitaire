@@ -8,7 +8,6 @@ import { getCardKey } from "../utils/utils"
 
 export interface CardProps {
   card: Card
-  positionInStack?: number
   location: string
   onDoubleClick?: () => void
 }
@@ -20,7 +19,7 @@ const suitSymbols = {
     [Suit.DIAMONDS]: Diamonds
 }
 
-export function Card ({ card, positionInStack = 0, location, onDoubleClick }: CardProps) {
+export function Card ({ card, location, onDoubleClick }: CardProps) {
 
   const { ref } = useDraggable({
       id: `${location}_${getCardKey(card)}`

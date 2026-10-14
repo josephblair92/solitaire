@@ -19,8 +19,8 @@ export function CardStack ({ cards, faceDownUntilIndex = 0, stackIndex, onDouble
       <div className="inline-grid auto-rows-5 gap-2" ref={ref}>
         {cards.map((card, index) => 
             index >= faceDownUntilIndex 
-                ? <Card location={`${stackKey}-${index}`} key={getCardKey(card)} positionInStack={index} card={card} onDoubleClick={() => onDoubleClick(stackIndex, index, card.suit)} />
-                : <FaceDownCard key={getCardKey(card)} positionInStack={index} />
+                ? <Card location={`${stackKey}-${index}`} key={getCardKey(card)} card={card} onDoubleClick={() => onDoubleClick(stackIndex, index, card.suit)} />
+                : <FaceDownCard key={getCardKey(card)} />
         )}
       </div>
     )
