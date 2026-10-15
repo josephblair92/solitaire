@@ -31,8 +31,8 @@ export function Card ({ card, location, onDoubleClick }: CardProps) {
   }
 
   const SuitSymbol = suitSymbols[card.suit]
-  const containerClasses = `flex flex-col h-33 w-20 p-1 bg-white rounded-md gap-4 border-1 border-gray-400 col-span-full [grid-row:calc(sibling-child())]`
-  const numberClasses = `text-lg ${textColors[card.color]} font-bold`
+  const containerClasses = `flex flex-col h-17 sm:h-33 w-11 sm:w-20 p-1 bg-white rounded-md gap-2 sm:gap-4 border-1 border-gray-400 col-span-full [grid-row:calc(sibling-child())]`
+  const numberClasses = `text-sm sm:text-lg ${textColors[card.color]} font-bold`
 
   let cardSymbol = `${card.number}`
   switch (card.number) {
@@ -54,9 +54,9 @@ export function Card ({ card, location, onDoubleClick }: CardProps) {
     <div className={containerClasses} ref={ref} onDoubleClick={onDoubleClick}>
         <div className="flex justify-between">
             <span className={numberClasses}>{cardSymbol}</span>
-            <SuitSymbol className="w-3" />
+            <SuitSymbol className="w-2 sm:w-3" />
         </div>
-        <div className="flex justify-center"><SuitSymbol className="w-10" /></div>
+        <div className="flex justify-center"><SuitSymbol className="w-5 sm:w-10" /></div>
     </div>
   )
 }
