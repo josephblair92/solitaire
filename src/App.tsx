@@ -14,7 +14,7 @@ interface GameState {
   foundationCardsPlaced: Record<Types.Suit, number>
 }
 
-const shuffle = (arr: Array<any>) => {
+const shuffle = (arr: Array<Types.Card>) => {
   let currentIndex = arr.length
   while (currentIndex > 0) {
     const randomIndex = Math.floor(Math.random() * currentIndex)
@@ -27,7 +27,7 @@ const shuffle = (arr: Array<any>) => {
 
 const initGameState = () => {
   const cards: Types.Card[] = []
-  for (const [_key, val] of Object.entries(Types.Suit)) {
+  for (const [, val] of Object.entries(Types.Suit)) {
     const color = getSuitColor(val)
     cards.push(...Array.from({ length: 13 }, (_val, index) => ({
       number: index + 1,
@@ -223,7 +223,7 @@ function App() {
   }
 
   const handleDragEvent = (source: string, dest: string) => {
-    const [sourceLocation, sourceCard] = source.split('_')
+    const [sourceLocation] = source.split('_')
     const [sourceLocationType] = sourceLocation.split('-')
     const [destType, destLocation] = dest.split('-')
     if (sourceLocationType === 'tableau' && destType === 'tableau') {
