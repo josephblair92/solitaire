@@ -7,7 +7,7 @@ export interface FoundationsProps {
 
 export function Foundations({ foundationCardsPlaced }: FoundationsProps) {
   return (
-    <div className="flex gap-8">
+    <div className="flex gap-3 sm:gap-8">
       {(Object.entries(foundationCardsPlaced) as Array<[Suit, number]>).map(
         ([suit, count]) => (
           <Foundation
