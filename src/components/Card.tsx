@@ -3,7 +3,7 @@ import Clubs from "../assets/clubs.svg?react"
 import Hearts from "../assets/hearts.svg?react"
 import Spades from "../assets/spades.svg?react"
 import Diamonds from "../assets/diamonds.svg?react"
-import { useDraggable } from "@dnd-kit/react";
+import { useDraggable } from "@dnd-kit/react"
 import { getCardKey } from "../utils/utils"
 
 export interface CardProps {
@@ -13,21 +13,20 @@ export interface CardProps {
 }
 
 const suitSymbols = {
-    [Suit.CLUBS]: Clubs,
-    [Suit.HEARTS]: Hearts,
-    [Suit.SPADES]: Spades,
-    [Suit.DIAMONDS]: Diamonds
+  [Suit.CLUBS]: Clubs,
+  [Suit.HEARTS]: Hearts,
+  [Suit.SPADES]: Spades,
+  [Suit.DIAMONDS]: Diamonds
 }
 
-export function Card ({ card, location, onDoubleClick }: CardProps) {
-
+export function Card({ card, location, onDoubleClick }: CardProps) {
   const { ref } = useDraggable({
-      id: `${location}_${getCardKey(card)}`
+    id: `${location}_${getCardKey(card)}`
   })
 
   const textColors: Record<string, string> = {
-    red: 'text-red-500',
-    black: 'text-black-500'
+    red: "text-red-500",
+    black: "text-black-500"
   }
 
   const SuitSymbol = suitSymbols[card.suit]
@@ -37,26 +36,28 @@ export function Card ({ card, location, onDoubleClick }: CardProps) {
   let cardSymbol = `${card.number}`
   switch (card.number) {
     case 1:
-        cardSymbol = 'A'
-        break
+      cardSymbol = "A"
+      break
     case 11:
-        cardSymbol = 'J'
-        break
+      cardSymbol = "J"
+      break
     case 12:
-        cardSymbol = 'Q'
-        break
+      cardSymbol = "Q"
+      break
     case 13:
-        cardSymbol = 'K'
-        break
+      cardSymbol = "K"
+      break
   }
 
   return (
     <div className={containerClasses} ref={ref} onDoubleClick={onDoubleClick}>
-        <div className="flex justify-between">
-            <span className={numberClasses}>{cardSymbol}</span>
-            <SuitSymbol className="w-2 sm:w-3" />
-        </div>
-        <div className="flex justify-center"><SuitSymbol className="w-5 sm:w-10" /></div>
+      <div className="flex justify-between">
+        <span className={numberClasses}>{cardSymbol}</span>
+        <SuitSymbol className="w-2 sm:w-3" />
+      </div>
+      <div className="flex justify-center">
+        <SuitSymbol className="w-5 sm:w-10" />
+      </div>
     </div>
   )
 }

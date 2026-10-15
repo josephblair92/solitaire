@@ -29,11 +29,13 @@ const initGameState = () => {
   const cards: Types.Card[] = []
   for (const [, val] of Object.entries(Types.Suit)) {
     const color = getSuitColor(val)
-    cards.push(...Array.from({ length: 13 }, (_val, index) => ({
-      number: index + 1,
-      suit: val,
-      color
-    })))
+    cards.push(
+      ...Array.from({ length: 13 }, (_val, index) => ({
+        number: index + 1,
+        suit: val,
+        color
+      }))
+    )
   }
   shuffle(cards)
   const NUM_TABLEAU_PILES = 7
@@ -59,33 +61,45 @@ const initGameState = () => {
 function App() {
   const [gameState, setGameState] = useState<GameState>(initGameState())
   const [winModalDismissed, setWinModalDismissed] = useState(false)
-  const gameWon = Object.values(gameState.foundationCardsPlaced).every(val => val === 13)
+  const gameWon = Object.values(gameState.foundationCardsPlaced).every(
+    val => val === 13
+  )
 
-  const isValidTableauCardPlacement = (cardToPlace: Types.Card, targetCard?: Types.Card) => {
+  const isValidTableauCardPlacement = (
+    cardToPlace: Types.Card,
+    targetCard?: Types.Card
+  ) => {
     return !targetCard
       ? cardToPlace.number === 13
-      : cardToPlace.number === targetCard.number - 1 && cardToPlace.color !== targetCard.color
+      : cardToPlace.number === targetCard.number - 1 &&
+          cardToPlace.color !== targetCard.color
   }
 
-  const isValidFoundationCardPlacement = (cardToPlace: Types.Card, target: Types.Suit) => {
-    return cardToPlace.suit === target && gameState.foundationCardsPlaced[target] === cardToPlace.number - 1
+  const isValidFoundationCardPlacement = (
+    cardToPlace: Types.Card,
+    target: Types.Suit
+  ) => {
+    return (
+      cardToPlace.suit === target &&
+      gameState.foundationCardsPlaced[target] === cardToPlace.number - 1
+    )
   }
 
   const advanceStock = () => {
     setGameState(prevGameState => {
       return {
         ...prevGameState,
-        stock: [
-          ...prevGameState.stock.slice(1),
-          prevGameState.stock[0]
-        ]
+        stock: [...prevGameState.stock.slice(1), prevGameState.stock[0]]
       }
     })
   }
 
-  const handleMoveCardBetweenTableauPiles = (sourceLocation: string, destStack: number) => {
-    const sourceStackIndex = parseInt(sourceLocation.split('-')[1])
-    const cardIndex = parseInt(sourceLocation.split('-')[2])
+  const handleMoveCardBetweenTableauPiles = (
+    sourceLocation: string,
+    destStack: number
+  ) => {
+    const sourceStackIndex = parseInt(sourceLocation.split("-")[1])
+    const cardIndex = parseInt(sourceLocation.split("-")[2])
     const cardToPlace = gameState.tableau[sourceStackIndex].cards[cardIndex]
     const targetCard = gameState.tableau[destStack].cards.at(-1)
 
@@ -94,28 +108,43 @@ function App() {
     setGameState(prevGameState => {
       return {
         ...prevGameState,
-        tableau: [...prevGameState.tableau.map((pile, index) => {
-          if (index === sourceStackIndex) {
-            return {
-              ...pile,
-              numFaceDownCards: cardIndex === pile.numFaceDownCards ? pile.numFaceDownCards - 1 : pile.numFaceDownCards,
-              cards: [...pile.cards.slice(0, cardIndex)]
+        tableau: [
+          ...prevGameState.tableau.map((pile, index) => {
+            if (index === sourceStackIndex) {
+              return {
+                ...pile,
+                numFaceDownCards:
+                  cardIndex === pile.numFaceDownCards
+                    ? pile.numFaceDownCards - 1
+                    : pile.numFaceDownCards,
+                cards: [...pile.cards.slice(0, cardIndex)]
+              }
+            } else if (index === destStack) {
+              return {
+                ...pile,
+                cards: [
+                  ...pile.cards,
+                  ...prevGameState.tableau[sourceStackIndex].cards.slice(
+                    cardIndex
+                  )
+                ]
+              }
+            } else {
+              return pile
             }
-          } else if (index === destStack) {
-            return {
-              ...pile,
-              cards: [...pile.cards, ...prevGameState.tableau[sourceStackIndex].cards.slice(cardIndex)]
-            }
-          } else {
-            return pile
-          }
-        })]
+          })
+        ]
       }
     })
   }
 
-  const handleMoveCardFromTableauToFoundation = (sourceStackIndex: number, cardIndex: number, suit: string) => {
-    if (cardIndex !== gameState.tableau[sourceStackIndex].cards.length - 1) return
+  const handleMoveCardFromTableauToFoundation = (
+    sourceStackIndex: number,
+    cardIndex: number,
+    suit: string
+  ) => {
+    if (cardIndex !== gameState.tableau[sourceStackIndex].cards.length - 1)
+      return
     const cardToPlace = gameState.tableau[sourceStackIndex].cards[cardIndex]
 
     if (!isValidFoundationCardPlacement(cardToPlace, suit as Types.Suit)) return
@@ -123,20 +152,26 @@ function App() {
     setGameState(prevGameState => {
       return {
         ...prevGameState,
-        tableau: [...prevGameState.tableau.map((pile, index) => {
-          if (index === sourceStackIndex) {
-            return {
-              ...pile,
-              numFaceDownCards: cardIndex === pile.numFaceDownCards ? pile.numFaceDownCards - 1 : pile.numFaceDownCards,
-              cards: [...pile.cards.slice(0, cardIndex)]
+        tableau: [
+          ...prevGameState.tableau.map((pile, index) => {
+            if (index === sourceStackIndex) {
+              return {
+                ...pile,
+                numFaceDownCards:
+                  cardIndex === pile.numFaceDownCards
+                    ? pile.numFaceDownCards - 1
+                    : pile.numFaceDownCards,
+                cards: [...pile.cards.slice(0, cardIndex)]
+              }
+            } else {
+              return pile
             }
-          } else {
-            return pile
-          }
-        })],
+          })
+        ],
         foundationCardsPlaced: {
           ...prevGameState.foundationCardsPlaced,
-          [suit]: prevGameState.tableau[sourceStackIndex].cards[cardIndex].number
+          [suit]:
+            prevGameState.tableau[sourceStackIndex].cards[cardIndex].number
         }
       }
     })
@@ -149,9 +184,7 @@ function App() {
       const card = prevGameState.stock[0]
       return {
         ...prevGameState,
-        stock: [
-          ...prevGameState.stock.slice(1)
-        ],
+        stock: [...prevGameState.stock.slice(1)],
         foundationCardsPlaced: {
           ...prevGameState.foundationCardsPlaced,
           [card.suit]: card.number
@@ -169,25 +202,28 @@ function App() {
     setGameState(prevGameState => {
       return {
         ...prevGameState,
-        stock: [
-          ...prevGameState.stock.slice(1)
-        ],
-        tableau: [...prevGameState.tableau.map((pile, index) => {
-          if (index === destStack) {
-            return {
-              ...pile,
-              cards: [...pile.cards, prevGameState.stock[0]]
+        stock: [...prevGameState.stock.slice(1)],
+        tableau: [
+          ...prevGameState.tableau.map((pile, index) => {
+            if (index === destStack) {
+              return {
+                ...pile,
+                cards: [...pile.cards, prevGameState.stock[0]]
+              }
+            } else {
+              return pile
             }
-          } else {
-            return pile
-          }
-        })]
+          })
+        ]
       }
     })
   }
 
-  const handleMoveCardFromFoundationToTableau = (sourceLocation: string, destStack: number) => {
-    const suit = sourceLocation.split('-')[1] as Types.Suit
+  const handleMoveCardFromFoundationToTableau = (
+    sourceLocation: string,
+    destStack: number
+  ) => {
+    const suit = sourceLocation.split("-")[1] as Types.Suit
     const cardToPlace = {
       suit,
       color: getSuitColor(suit),
@@ -204,40 +240,53 @@ function App() {
           ...prevGameState.foundationCardsPlaced,
           [suit]: prevGameState.foundationCardsPlaced[suit] - 1
         },
-        tableau: [...prevGameState.tableau.map((pile, index) => {
-          if (index === destStack) {
-            return {
-              ...pile,
-              cards: [...pile.cards, cardToPlace]
+        tableau: [
+          ...prevGameState.tableau.map((pile, index) => {
+            if (index === destStack) {
+              return {
+                ...pile,
+                cards: [...pile.cards, cardToPlace]
+              }
+            } else {
+              return pile
             }
-          } else {
-            return pile
-          }
-        })]
+          })
+        ]
       }
     })
   }
 
-  const onTableauCardDoubleClick = (stackIndex: number, cardIndex: number, suit: Types.Suit) => {
+  const onTableauCardDoubleClick = (
+    stackIndex: number,
+    cardIndex: number,
+    suit: Types.Suit
+  ) => {
     handleMoveCardFromTableauToFoundation(stackIndex, cardIndex, suit)
   }
 
   const handleDragEvent = (source: string, dest: string) => {
-    const [sourceLocation] = source.split('_')
-    const [sourceLocationType] = sourceLocation.split('-')
-    const [destType, destLocation] = dest.split('-')
-    if (sourceLocationType === 'tableau' && destType === 'tableau') {
-      handleMoveCardBetweenTableauPiles(sourceLocation, parseInt(destLocation))  
-    } else if (sourceLocationType === 'tableau' && destType === 'foundation') {
-      const sourceStackIndex = parseInt(sourceLocation.split('-')[1])
-      const cardIndex = parseInt(sourceLocation.split('-')[2])
-      handleMoveCardFromTableauToFoundation(sourceStackIndex, cardIndex, destLocation)
-    } else if (sourceLocationType === 'stock' && destType === 'foundation') {
+    const [sourceLocation] = source.split("_")
+    const [sourceLocationType] = sourceLocation.split("-")
+    const [destType, destLocation] = dest.split("-")
+    if (sourceLocationType === "tableau" && destType === "tableau") {
+      handleMoveCardBetweenTableauPiles(sourceLocation, parseInt(destLocation))
+    } else if (sourceLocationType === "tableau" && destType === "foundation") {
+      const sourceStackIndex = parseInt(sourceLocation.split("-")[1])
+      const cardIndex = parseInt(sourceLocation.split("-")[2])
+      handleMoveCardFromTableauToFoundation(
+        sourceStackIndex,
+        cardIndex,
+        destLocation
+      )
+    } else if (sourceLocationType === "stock" && destType === "foundation") {
       handleMoveCardFromStockToFoundation(destLocation)
-    } else if (sourceLocationType === 'stock' && destType === 'tableau') {
+    } else if (sourceLocationType === "stock" && destType === "tableau") {
       handleMoveCardFromStockToTableau(parseInt(destLocation))
-    } else if (sourceLocationType === 'foundation' && destType === 'tableau') {
-      handleMoveCardFromFoundationToTableau(sourceLocation, parseInt(destLocation))
+    } else if (sourceLocationType === "foundation" && destType === "tableau") {
+      handleMoveCardFromFoundationToTableau(
+        sourceLocation,
+        parseInt(destLocation)
+      )
     }
   }
 
@@ -246,24 +295,41 @@ function App() {
   }
 
   return (
-    <DragDropProvider onDragEnd={event => {
-      if (event.canceled) return
-      const source = event.operation.source?.id
-      const target = event.operation.target?.id
-      if (!source || !target) return
-      handleDragEvent(source.toString(), target.toString())
-    }}>
+    <DragDropProvider
+      onDragEnd={event => {
+        if (event.canceled) return
+        const source = event.operation.source?.id
+        const target = event.operation.target?.id
+        if (!source || !target) return
+        handleDragEvent(source.toString(), target.toString())
+      }}
+    >
       <div className="flex flex-col bg-green-500 h-full w-full p-3 sm:p-5 justify-between">
         <div className="flex flex-col gap-10">
           <div className="flex justify-between">
-            <Stock cards={gameState.stock} advanceStock={advanceStock} onDoubleClick={handleMoveCardFromStockToFoundation} />
-            <Foundations foundationCardsPlaced={gameState.foundationCardsPlaced} />
+            <Stock
+              cards={gameState.stock}
+              advanceStock={advanceStock}
+              onDoubleClick={handleMoveCardFromStockToFoundation}
+            />
+            <Foundations
+              foundationCardsPlaced={gameState.foundationCardsPlaced}
+            />
           </div>
-          <Tableau piles={gameState.tableau} onDoubleClick={onTableauCardDoubleClick} />
-          <GameWinModal isOpen={gameWon && !winModalDismissed} onClose={() => setWinModalDismissed(true)} onReset={newGame} />
+          <Tableau
+            piles={gameState.tableau}
+            onDoubleClick={onTableauCardDoubleClick}
+          />
+          <GameWinModal
+            isOpen={gameWon && !winModalDismissed}
+            onClose={() => setWinModalDismissed(true)}
+            onReset={newGame}
+          />
         </div>
         <footer>
-          <button className="bg-blue-400" onClick={newGame}>Start New Game</button>
+          <button className="bg-blue-400" onClick={newGame}>
+            Start New Game
+          </button>
         </footer>
       </div>
     </DragDropProvider>
