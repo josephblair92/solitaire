@@ -241,6 +241,10 @@ function App() {
     }
   }
 
+  const newGame = () => {
+    setGameState(initGameState())
+  }
+
   return (
     <DragDropProvider onDragEnd={event => {
       if (event.canceled) return
@@ -249,13 +253,18 @@ function App() {
       if (!source || !target) return
       handleDragEvent(source.toString(), target.toString())
     }}>
-      <div className="flex flex-col p-5 gap-10 bg-green-500 h-full w-full">
-        <div className="flex justify-between">
-          <Stock cards={gameState.stock} advanceStock={advanceStock} onDoubleClick={handleMoveCardFromStockToFoundation} />
-          <Foundations foundationCardsPlaced={gameState.foundationCardsPlaced} />
+      <div className="flex flex-col bg-green-500 h-full w-full p-5 justify-between">
+        <div className="flex flex-col gap-10">
+          <div className="flex justify-between">
+            <Stock cards={gameState.stock} advanceStock={advanceStock} onDoubleClick={handleMoveCardFromStockToFoundation} />
+            <Foundations foundationCardsPlaced={gameState.foundationCardsPlaced} />
+          </div>
+          <Tableau piles={gameState.tableau} onDoubleClick={onTableauCardDoubleClick} />
+          <GameWinModal isOpen={gameWon && !winModalDismissed} onClose={() => setWinModalDismissed(true)} onReset={newGame} />
         </div>
-        <Tableau piles={gameState.tableau} onDoubleClick={onTableauCardDoubleClick} />
-        <GameWinModal isOpen={gameWon && !winModalDismissed} onClose={() => setWinModalDismissed(true)} onReset={() => setGameState(initGameState())} />
+        <footer>
+          <button className="bg-blue-400" onClick={newGame}>Start New Game</button>
+        </footer>
       </div>
     </DragDropProvider>
   )
